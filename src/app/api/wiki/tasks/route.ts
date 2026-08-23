@@ -1,40 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { after } from 'next/server';
+import { submitTask, listTasks, runWikiGeneration } from '@/lib/lore/tasks';
 
-// Proxy for the backend wiki-task endpoints.
-const TARGET_SERVER_BASE_URL = process.env.SERVER_BASE_URL || 'http://localhost:8001';
+export const maxDuration = 300;
 
-function json(text: string, status: number): NextResponse {
-  return new NextResponse(text, {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
-
-// POST /api/wiki/tasks -> submit (get-or-create) a wiki-generation task.
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const res = await fetch(`${TARGET_SERVER_BASE_URL}/wiki/tasks`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    return json(await res.text(), res.status);
+    const result = await submitTask(body);
+
+    if (result.created) {
+      after(async () => {
+        await runWikiGeneration(result.task_id);
+      });
+    }
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error('Error in /api/wiki/tasks POST proxy:', error);
-    return json(JSON.stringify({ error: 'Failed to submit wiki task' }), 502);
+    console.error('POST /api/wiki/tasks', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to submit task' },
+      { status: 500 },
+    );
   }
 }
 
-// GET /api/wiki/tasks[?status=active|completed] -> list tasks.
 export async function GET(req: NextRequest) {
   try {
-    const status = req.nextUrl.searchParams.get('status');
-    const qs = status ? `?status=${encodeURIComponent(status)}` : '';
-    const res = await fetch(`${TARGET_SERVER_BASE_URL}/wiki/tasks${qs}`);
-    return json(await res.text(), res.status);
+    const status = req.nextUrl.searchParams.get('status') as 'active' | 'completed' | null;
+    const tasks = await listTasks(status || undefined);
+    return NextResponse.json(tasks);
   } catch (error) {
-    console.error('Error in /api/wiki/tasks GET proxy:', error);
-    return json(JSON.stringify({ error: 'Failed to list wiki tasks' }), 502);
+    console.error('GET /api/wiki/tasks', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to list tasks' },
+      { status: 500 },
+    );
   }
 }

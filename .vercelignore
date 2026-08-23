@@ -1,0 +1,9 @@
+api/
+tests/
+docker-compose.yml
+docker-compose-litellm.yml
+Dockerfile*
+run.sh
+*.py
+uv.lock
+pytest.ini

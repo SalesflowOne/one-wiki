@@ -56,11 +56,11 @@ const CodeViewer: React.FC<CodeViewerProps> = ({
     setError(null);
     const params = new URLSearchParams({
       repo_url: repoUrl,
-      file_path: activeFile,
+      path: activeFile,
       type: repoType || 'github',
     });
     if (token) params.set('token', token);
-    fetch(`${getApiBaseUrl()}/codemap/file?${params.toString()}`)
+    fetch(`${getApiBaseUrl()}/api/codemap/file?${params.toString()}`)
       .then(async (res) => {
         if (!res.ok) throw new Error(`(${res.status}) ${await res.text()}`);
         return res.json();

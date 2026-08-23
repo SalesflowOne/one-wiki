@@ -601,7 +601,7 @@ export default function RepoWikiPage() {
       const repoUrl = getRepoUrl(effectiveRepoInfo);
 
       // Make API call to export wiki
-      const response = await fetch(`/export/wiki`, {
+      const response = await fetch(`/api/export/wiki`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
