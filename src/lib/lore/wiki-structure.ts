@@ -128,7 +128,7 @@ export function buildPagePrompt(
   language: string,
   fileContents: string,
 ): string {
-  return `You are Lore, an expert technical writer. Generate a comprehensive wiki page in Markdown.
+  return `You are One Wiki, an expert technical writer. Generate a comprehensive wiki page in Markdown.
 
 Topic: ${title}
 Language: ${languageName(language)}

@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Lore: The OneWiki",
+    "appName": "One Wiki",
     "tagline": "AI-powered documentation",
     "generateWiki": "Generate Wiki",
     "processing": "Processing...",
@@ -19,13 +19,13 @@
     "preparingDownload": "Please wait while we prepare your download..."
   },
   "home": {
-    "welcome": "Welcome to Lore",
+    "welcome": "Welcome to One Wiki",
     "welcomeTagline": "AI-powered documentation for your code repositories",
     "description": "Generate comprehensive documentation from GitHub, GitLab, or Bitbucket repositories with just a few clicks.",
     "quickStart": "Quick Start",
     "enterRepoUrl": "Enter a repository URL in one of these formats:",
     "advancedVisualization": "Advanced Visualization with Mermaid Diagrams",
-    "diagramDescription": "Lore automatically generates interactive diagrams to help you understand code structure and relationships:",
+    "diagramDescription": "One Wiki automatically generates interactive diagrams to help you understand code structure and relationships:",
     "flowDiagram": "Flow Diagram",
     "sequenceDiagram": "Sequence Diagram"
   },
@@ -94,7 +94,7 @@
     "authorizationRequired": "Authentication is required to generate the wiki."
   },
   "footer": {
-    "copyright": "Lore — The OneWiki · An OWeb satellite"
+    "copyright": "One Wiki · An OWeb satellite"
   },
   "ask": {
     "placeholder": "Ask a question about this repository...",

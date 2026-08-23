@@ -15,7 +15,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 // Define the demo mermaid charts outside the component
 const DEMO_FLOW_CHART = `graph TD
-  A[Code Repository] --> B[Lore]
+  A[Code Repository] --> B[One Wiki]
   B --> C[Architecture Diagrams]
   B --> D[Component Relationships]
   B --> E[Data Flow]
@@ -30,16 +30,16 @@ const DEMO_FLOW_CHART = `graph TD
 
 const DEMO_SEQUENCE_CHART = `sequenceDiagram
   participant User
-  participant Lore
+  participant OneWiki
   participant GitHub
 
-  User->>Lore: Enter repository URL
-  Lore->>GitHub: Request repository data
-  GitHub-->>Lore: Return repository data
-  Lore->>Lore: Process and analyze code
-  Lore-->>User: Display wiki with diagrams
+  User->>OneWiki: Enter repository URL
+  OneWiki->>GitHub: Request repository data
+  GitHub-->>OneWiki: Return repository data
+  OneWiki->>OneWiki: Process and analyze code
+  OneWiki-->>User: Display wiki with diagrams
 
-  Note over User,GitHub: Lore supports sequence diagrams for visualizing interactions`;
+  Note over User,GitHub: One Wiki supports sequence diagrams for visualizing interactions`;
 
 export default function Home() {
   const router = useRouter();

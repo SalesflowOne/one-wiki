@@ -70,7 +70,7 @@ export async function* researchChatStream(request: ChatRequest): AsyncGenerator<
   const system: LlmMessage = {
     role: 'system',
     content:
-      'You are Lore, a codebase expert for OWeb. Answer using the provided repository context. Be concise and technical.',
+      'You are One Wiki, a codebase expert for OWeb. Answer using the provided repository context. Be concise and technical.',
   };
 
   const user: LlmMessage = {

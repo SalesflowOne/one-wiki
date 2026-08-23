@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const enabled = process.env.LORE_AUTH_MODE === 'true' || process.env.LORE_AUTH_MODE === '1';
+  const flag =
+    process.env.NEXT_PUBLIC_ONEWIKI_REQUIRE_AUTH ||
+    process.env.ONEWIKI_REQUIRE_AUTH ||
+    process.env.LORE_AUTH_MODE;
+  const enabled = flag === 'true' || flag === '1';
   return NextResponse.json({ auth_mode: enabled });
 }

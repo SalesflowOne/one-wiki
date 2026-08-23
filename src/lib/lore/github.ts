@@ -57,7 +57,7 @@ export function parseRepoUrl(repoUrl: string, type: string): RepoRef | null {
 async function githubFetch(path: string, token?: string): Promise<Response> {
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github+json',
-    'User-Agent': 'Lore-OneWiki',
+    'User-Agent': 'OneWiki-OWeb',
   };
   if (token) headers.Authorization = `Bearer ${token}`;
   return fetch(`https://api.github.com${path}`, { headers, next: { revalidate: 0 } });

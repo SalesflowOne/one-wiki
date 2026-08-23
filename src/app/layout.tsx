@@ -4,7 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Lore — The OneWiki | OWeb",
+  title: "One Wiki | OWeb",
   description: "AI-powered repository wikis for the OWeb constellation",
 };
 
