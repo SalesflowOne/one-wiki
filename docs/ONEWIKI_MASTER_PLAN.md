@@ -1,9 +1,9 @@
-# Lore: The OneWiki
+# One Wiki Master Plan
 
 ## Product Master Plan
 
 **Status:** Product strategy and implementation roadmap  
-**Product:** Lore  
+**Product:** One Wiki  
 **Descriptor:** The OneWiki  
 **Ecosystem:** OWeb / One OS  
 **Core promise:** Turn any source into trustworthy, living knowledge.
@@ -12,7 +12,7 @@
 
 ## 1. Executive decision
 
-Lore should not be positioned as another GitBook clone or merely as a rebranded DeepWiki Open deployment.
+One Wiki should not be positioned as another GitBook clone or merely as a rebranded DeepWiki Open deployment.
 
 It should combine three products that are normally separate:
 
@@ -22,7 +22,7 @@ It should combine three products that are normally separate:
 
 The wedge is automatic wiki generation. The destination is the knowledge layer for One OS.
 
-> **Lore is GitBook meets DeepWiki for every kind of organizational knowledge.**
+> **One Wiki is GitBook meets DeepWiki for every kind of organizational knowledge.**
 
 ---
 
@@ -36,9 +36,9 @@ GitBook is strongest after a team has decided to document something. It provides
 
 DeepWiki Open is strongest before documentation exists. It analyzes a software repository, discovers its structure, generates wiki pages and diagrams, cites the underlying code, and lets users ask questions about the codebase.
 
-### Lore
+### One Wiki
 
-Lore should own the full lifecycle:
+One Wiki should own the full lifecycle:
 
 ```mermaid
 flowchart TD
@@ -51,15 +51,15 @@ flowchart TD
     G --> D
 ```
 
-Lore's defining advantage is not simply that it can publish documentation. It is that it can create, ground, combine, and maintain documentation from the systems where knowledge already lives.
+One Wiki's defining advantage is not simply that it can publish documentation. It is that it can create, ground, combine, and maintain documentation from the systems where knowledge already lives.
 
 ---
 
 ## 3. Capability comparison
 
-Legend: **Strong** = mature/core capability; **Partial** = present but limited; **Missing** = must be built; **Lore target** = desired product behavior.
+Legend: **Strong** = mature/core capability; **Partial** = present but limited; **Missing** = must be built; **One Wiki target** = desired product behavior.
 
-| Capability | DeepWiki Open | GitBook | Lore target |
+| Capability | DeepWiki Open | GitBook | One Wiki target |
 |---|---|---|---|
 | Analyze an entire codebase | **Strong** | Partial | **Strong** |
 | Generate a wiki from source code | **Strong** | Partial | **Strong** |
@@ -97,7 +97,7 @@ Legend: **Strong** = mature/core capability; **Partial** = present but limited; 
 
 ### Product conclusion
 
-DeepWiki Open supplies the hardest early technical capability: turning complex source code into navigable, cited explanations. It does **not** supply the complete product surface required to replace GitBook. Lore must build a durable content platform around that engine.
+DeepWiki Open supplies the hardest early technical capability: turning complex source code into navigable, cited explanations. It does **not** supply the complete product surface required to replace GitBook. One Wiki must build a durable content platform around that engine.
 
 ---
 
@@ -120,7 +120,7 @@ The result must include a proposed page tree, summaries, detailed pages, diagram
 
 ### Pillar 2: Author
 
-Lore needs a first-class visual editor—not just generated Markdown.
+One Wiki needs a first-class visual editor—not just generated Markdown.
 
 Required authoring functions:
 
@@ -145,7 +145,7 @@ Every generated claim should be able to show:
 - Confidence or evidence coverage
 - Who approved the published version
 
-Lore should never silently overwrite approved human content. Source changes create proposed updates or review tasks.
+One Wiki should never silently overwrite approved human content. Source changes create proposed updates or review tasks.
 
 ### Pillar 4: Publish
 
@@ -155,13 +155,13 @@ Each wiki can be:
 - Shared by invitation
 - Published publicly
 - Protected by password, workspace membership, or application authentication
-- Hosted on a Lore subdomain or custom domain
+- Hosted on a One Wiki subdomain or custom domain
 - Embedded inside Salesflow, another OWeb app, or an external product
 - Exposed to AI agents through MCP and API access
 
 ### Pillar 5: Maintain
 
-Lore continuously watches connected sources and identifies:
+One Wiki continuously watches connected sources and identifies:
 
 - Outdated pages
 - Broken citations or deleted sources
@@ -182,7 +182,7 @@ The initial creation screen should present three simple paths.
 
 **“Connect what you already have.”**
 
-The user connects repositories, files, Drive, or websites. Lore inventories the sources, proposes the wiki structure, estimates generation cost/time, and produces a reviewable first draft.
+The user connects repositories, files, Drive, or websites. One Wiki inventories the sources, proposes the wiki structure, estimates generation cost/time, and produces a reviewable first draft.
 
 ### Write
 
@@ -194,7 +194,7 @@ The user creates a manual documentation space with GitBook-quality editing and p
 
 **“Bring scattered knowledge together.”**
 
-The user connects multiple source types. Lore resolves duplicates, detects contradictions, creates a unified taxonomy, and preserves citations back to every system of record.
+The user connects multiple source types. One Wiki resolves duplicates, detects contradictions, creates a unified taxonomy, and preserves citations back to every system of record.
 
 Generate is the launch wedge. Write makes the product complete. Unify becomes the moat.
 
@@ -234,7 +234,7 @@ Generate is the launch wedge. Write makes the product complete. Unify becomes th
 
 ### Important architectural rule
 
-Store canonical wiki content in Lore's structured content model. Markdown should be an import/export and Git-sync format—not the only database representation. This enables visual editing, permissions, reusable blocks, citations, comments, and precise AI patches.
+Store canonical wiki content in One Wiki's structured content model. Markdown should be an import/export and Git-sync format—not the only database representation. This enables visual editing, permissions, reusable blocks, citations, comments, and precise AI patches.
 
 ---
 
@@ -272,7 +272,7 @@ Store canonical wiki content in Lore's structured content model. Markdown should
 - Reviewable change proposals
 - Observability, retries, cancellation, and failure recovery
 
-DeepWiki Open should initially live behind a stable internal `generation-service` contract. That allows Lore to improve or replace individual parsing, retrieval, and generation components without rewriting the editor or publishing platform.
+DeepWiki Open should initially live behind a stable internal `generation-service` contract. That allows One Wiki to improve or replace individual parsing, retrieval, and generation components without rewriting the editor or publishing platform.
 
 ---
 
@@ -295,7 +295,7 @@ Deliverables:
 
 **Exit criteria:** A medium repository completes reliably, output has traceable citations, no tenant data leaks, and projected cost is acceptable.
 
-## Phase 1 — Lore MVP: Generate and publish
+## Phase 1 — One Wiki MVP: Generate and publish
 
 **Goal:** Deliver the magical first-use experience.
 
@@ -309,7 +309,7 @@ Scope:
 - Generated pages, diagrams, citations, and repo chat
 - Basic page-tree management and Markdown-capable editing
 - Public/private publishing
-- Lore subdomain and basic custom branding
+- One Wiki subdomain and basic custom branding
 - Search and AI Q&A
 - Usage metering, generation limits, and billing hooks
 - Export to Markdown
@@ -320,7 +320,7 @@ Scope:
 
 ## Phase 2 — GitBook parity where it matters
 
-**Goal:** Make Lore a credible daily documentation platform rather than a one-time generator.
+**Goal:** Make One Wiki a credible daily documentation platform rather than a one-time generator.
 
 Scope:
 
@@ -338,7 +338,7 @@ Scope:
 - Bidirectional Git synchronization for documentation content
 - Webhooks, content API, and one MCP endpoint per published wiki
 
-**Exit criteria:** A team can operate Lore as its primary documentation system without needing GitBook for standard workflows.
+**Exit criteria:** A team can operate One Wiki as its primary documentation system without needing GitBook for standard workflows.
 
 ## Phase 3 — The OneWiki: multi-source knowledge
 
@@ -362,7 +362,7 @@ Scope:
 
 ## Phase 4 — Living knowledge and OWeb intelligence
 
-**Goal:** Establish Lore as the knowledge layer for One OS.
+**Goal:** Establish One Wiki as the knowledge layer for One OS.
 
 Scope:
 
@@ -373,9 +373,9 @@ Scope:
 - Knowledge health score: freshness, coverage, conflicts, broken citations, unanswered questions
 - Agent feedback loops showing which knowledge produced successful outcomes
 - Workflow actions: create task, request review, notify owner, update training, publish release notes
-- White-label Lore for clients and agencies
+- White-label One Wiki for clients and agencies
 
-**Exit criteria:** OWeb agents use Lore as their governed source of truth rather than repeatedly reconstructing context from raw applications.
+**Exit criteria:** OWeb agents use One Wiki as their governed source of truth rather than repeatedly reconstructing context from raw applications.
 
 ---
 
@@ -451,7 +451,7 @@ These are table stakes and should feel familiar:
 - Left: page tree and sources
 - Center: rendered page/editor
 - Right: outline, citations, page status, AI actions, and review controls
-- Top: search/Ask Lore, preview, share, and publish
+- Top: search/Ask One Wiki, preview, share, and publish
 
 ### Needs Review
 
@@ -493,7 +493,7 @@ Charge for the value-driving constraints rather than simple page count.
 - Public wikis
 - One workspace
 - Limited generation credits
-- Lore branding
+- One Wiki branding
 - Community support
 
 ### Pro
@@ -547,7 +547,7 @@ Meter separately or enforce quotas for repository size, indexed source volume, g
 ### Engagement
 
 - Weekly active editors and readers
-- Searches and Ask Lore sessions
+- Searches and Ask One Wiki sessions
 - Pages reviewed per workspace
 - Connected sources per wiki
 - MCP/API queries from agents
@@ -574,14 +574,14 @@ Meter separately or enforce quotas for repository size, indexed source volume, g
 | Generated wiki goes stale | Commit monitoring, source diffs, freshness policies, review queue |
 | Fork becomes hard to maintain | Isolate DeepWiki behind internal contracts; avoid deep UI coupling |
 | Weak non-code experience | Phase 3 connectors plus templates for SOPs, training, support, and business knowledge |
-| Confusing overlap with oBrain | Lore owns governed knowledge; oBrain consumes and reasons across knowledge and live context |
+| Confusing overlap with oBrain | One Wiki owns governed knowledge; oBrain consumes and reasons across knowledge and live context |
 | Commodity feature competition | Build multi-source synthesis, maintenance, provenance, and OWeb-native workflows |
 
 ---
 
 ## 15. Recommended product boundaries
 
-### Lore owns
+### One Wiki owns
 
 - Durable, structured organizational knowledge
 - Wikis, documentation, manuals, SOPs, training, and knowledge bases
@@ -593,15 +593,15 @@ Meter separately or enforce quotas for repository size, indexed source volume, g
 - Cross-application reasoning
 - Live operational context
 - Agent memory and orchestration
-- Decisions and actions using Lore plus real-time systems
+- Decisions and actions using One Wiki plus real-time systems
 
 ### Salesflow and other OWeb apps own
 
 - Operational records and workflows
 - Domain-specific actions
-- Events that can trigger Lore update proposals
+- Events that can trigger One Wiki update proposals
 
-This avoids building two competing “knowledge” products. Lore is the trusted library; oBrain is the intelligence that uses it.
+This avoids building two competing “knowledge” products. One Wiki is the trusted library; oBrain is the intelligence that uses it.
 
 ---
 
@@ -615,7 +615,7 @@ This avoids building two competing “knowledge” products. Lore is the trusted
 - Audit storage and credential handling
 - Confirm dependency licensing
 
-### Week 2: Define Lore's foundation
+### Week 2: Define One Wiki's foundation
 
 - Finalize the domain model
 - Define generation-service APIs
@@ -635,17 +635,17 @@ This avoids building two competing “knowledge” products. Lore is the trusted
 
 - Add basic editing
 - Add public/private publishing
-- Add search and Ask Lore
+- Add search and Ask One Wiki
 - Add usage limits and instrumentation
 - Test with one OWeb repository and one external repository
 
-At day 30, the goal is not feature completeness. The goal is one undeniable demonstration: **a repository becomes a trustworthy, editable, publishable Lore wiki.**
+At day 30, the goal is not feature completeness. The goal is one undeniable demonstration: **a repository becomes a trustworthy, editable, publishable One Wiki wiki.**
 
 ---
 
 ## 17. Final recommendation
 
-Build Lore in layers:
+Build One Wiki in layers:
 
 1. **DeepWiki first:** automatic, cited repository understanding.
 2. **GitBook next:** editing, collaboration, publishing, governance, and maintenance.
@@ -655,7 +655,7 @@ Do not begin by recreating GitBook page for page. Use DeepWiki Open to create an
 
 **Brand statement:**
 
-> **Lore: The OneWiki**  
+> **One Wiki: The OneWiki**  
 > Turn anything into living knowledge.  
 > Built on One OS.
 

@@ -1,5 +1,5 @@
 /**
- * Lore streaming client — HTTP/SSE based (Vercel-compatible).
+ * One Wiki streaming client — HTTP/SSE based (Vercel-compatible).
  * Preserves the WebSocket-shaped API used by Ask.tsx.
  */
 
