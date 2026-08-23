@@ -1,5 +1,5 @@
-import generator from '../../../api/config/generator.json';
-import lang from '../../../api/config/lang.json';
+import generator from './generator.json';
+import lang from './lang.json';
 
 export const generatorConfig = generator;
 export const langConfig = lang;
