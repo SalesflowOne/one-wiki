@@ -15,7 +15,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 // Define the demo mermaid charts outside the component
 const DEMO_FLOW_CHART = `graph TD
-  A[Code Repository] --> B[DeepWiki]
+  A[Code Repository] --> B[Lore]
   B --> C[Architecture Diagrams]
   B --> D[Component Relationships]
   B --> E[Data Flow]
@@ -30,17 +30,16 @@ const DEMO_FLOW_CHART = `graph TD
 
 const DEMO_SEQUENCE_CHART = `sequenceDiagram
   participant User
-  participant DeepWiki
+  participant Lore
   participant GitHub
 
-  User->>DeepWiki: Enter repository URL
-  DeepWiki->>GitHub: Request repository data
-  GitHub-->>DeepWiki: Return repository data
-  DeepWiki->>DeepWiki: Process and analyze code
-  DeepWiki-->>User: Display wiki with diagrams
+  User->>Lore: Enter repository URL
+  Lore->>GitHub: Request repository data
+  GitHub-->>Lore: Return repository data
+  Lore->>Lore: Process and analyze code
+  Lore-->>User: Display wiki with diagrams
 
-  %% Add a note to make text more visible
-  Note over User,GitHub: DeepWiki supports sequence diagrams for visualizing interactions`;
+  Note over User,GitHub: Lore supports sequence diagrams for visualizing interactions`;
 
 export default function Home() {
   const router = useRouter();

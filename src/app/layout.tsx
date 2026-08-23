@@ -4,8 +4,8 @@ import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Deepwiki Open Source | Sheing Ng",
-  description: "Created by Sheing Ng",
+  title: "Lore — The OneWiki | OWeb",
+  description: "AI-powered repository wikis for the OWeb constellation",
 };
 
 export default function RootLayout({
