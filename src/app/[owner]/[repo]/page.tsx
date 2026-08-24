@@ -17,6 +17,7 @@ import {
   type WikiTaskStatusDto,
   type WikiTaskStructureDto,
 } from '@/utils/wikiTask';
+import { isLlmConfigurationError } from '@/lib/lore/model-params';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -939,6 +940,8 @@ export default function RepoWikiPage() {
             <p className="text-[var(--muted)] text-xs">
               {embeddingError ? (
                 messages.repoPage?.embeddingErrorDefault || 'This error is related to the document embedding system used for analyzing your repository. Please verify your embedding model configuration, API keys, and try again. If the issue persists, consider switching to a different embedding provider in the model settings.'
+              ) : error && isLlmConfigurationError(error) ? (
+                messages.repoPage?.llmErrorDefault || 'This error is from the AI model provider. Check your API key, pick a supported model in the configuration modal, or switch to a model like gpt-4o if reasoning models fail.'
               ) : (
                 messages.repoPage?.errorMessageDefault || 'Please check that your repository exists and is public. Valid formats are "owner/repo", "https://github.com/owner/repo", "https://gitlab.com/owner/repo", "https://bitbucket.org/owner/repo", or local folder paths like "C:\\path\\to\\folder" or "/path/to/folder".'
               )}

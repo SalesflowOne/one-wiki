@@ -114,6 +114,7 @@
     "errorTitle": "Error",
     "errorMessageDefault": "Please check that your repository exists and is public. Valid formats are \"owner/repo\", \"https://github.com/owner/repo\", \"https://gitlab.com/owner/repo\", \"https://bitbucket.org/owner/repo\", or local folder paths like \"C:\\\\path\\\\to\\\\folder\" or \"/path/to/folder\".",
     "embeddingErrorDefault": "This error is related to the document embedding system used for analyzing your repository. Please verify your embedding model configuration, API keys, and try again. If the issue persists, consider switching to a different embedding provider in the model settings.",
+    "llmErrorDefault": "This error is from the AI model provider. Verify your API key is set on the deployment, then try gpt-4o or another standard model if a reasoning model (gpt-5, o1, o3) fails.",
     "backToHome": "Back to Home",
     "exportWiki": "Export Wiki",
     "exportAsMarkdown": "Export as Markdown",

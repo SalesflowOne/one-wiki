@@ -1,6 +1,9 @@
 import OpenAI from 'openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { generatorConfig } from './config';
+import {
+  resolveModelGenerationParams,
+  type ResolvedModelGenerationParams,
+} from './model-params';
 
 export interface LlmMessage {
   role: 'system' | 'user' | 'assistant';
@@ -14,34 +17,69 @@ export interface LlmOptions {
   stream?: boolean;
 }
 
-function resolveProviderModel(provider?: string, model?: string) {
-  const p = provider || generatorConfig.default_provider;
-  const providers = generatorConfig.providers as Record<string, { default_model: string; models: Record<string, unknown> }>;
-  const cfg = providers[p];
-  const m = model || cfg?.default_model || 'gpt-4o';
-  return { provider: p, model: m };
+function applyGenerationParams(
+  target: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming |
+    OpenAI.Chat.Completions.ChatCompletionCreateParamsStreaming,
+  resolved: ResolvedModelGenerationParams,
+  options: LlmOptions,
+) {
+  const temperature = options.temperature ?? resolved.temperature;
+  if (temperature !== undefined) {
+    target.temperature = temperature;
+  }
+  if (resolved.top_p !== undefined) {
+    target.top_p = resolved.top_p;
+  }
 }
 
 export async function completeText(prompt: string, options: LlmOptions = {}): Promise<string> {
-  const { provider, model } = resolveProviderModel(options.provider, options.model);
+  const resolved = resolveModelGenerationParams(options.provider, options.model);
 
-  if (provider === 'google') {
+  if (resolved.provider === 'google') {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) throw new Error('GOOGLE_API_KEY is not configured');
     const genAI = new GoogleGenerativeAI(apiKey);
-    const gModel = genAI.getGenerativeModel({ model });
+    const generationConfig: Record<string, number> = {};
+    const temperature = options.temperature ?? resolved.temperature;
+    if (temperature !== undefined) generationConfig.temperature = temperature;
+    if (resolved.top_p !== undefined) generationConfig.top_p = resolved.top_p;
+    if (resolved.top_k !== undefined) generationConfig.top_k = resolved.top_k;
+
+    const gModel = genAI.getGenerativeModel({
+      model: resolved.model,
+      generationConfig,
+    });
     const result = await gModel.generateContent(prompt);
     return result.response.text();
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error('OPENAI_API_KEY is not configured');
-  const openai = new OpenAI({ apiKey });
-  const response = await openai.chat.completions.create({
-    model: provider === 'openai' ? model : 'gpt-4o-mini',
-    messages: [{ role: 'user', content: prompt }],
-    temperature: options.temperature ?? 0.4,
+  const apiKey =
+    resolved.provider === 'openrouter'
+      ? process.env.OPENROUTER_API_KEY
+      : process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      resolved.provider === 'openrouter'
+        ? 'OPENROUTER_API_KEY is not configured'
+        : 'OPENAI_API_KEY is not configured',
+    );
+  }
+
+  const openai = new OpenAI({
+    apiKey,
+    baseURL:
+      resolved.provider === 'openrouter'
+        ? process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1'
+        : process.env.OPENAI_BASE_URL,
   });
+
+  const request: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming = {
+    model: resolved.model,
+    messages: [{ role: 'user', content: prompt }],
+  };
+  applyGenerationParams(request, resolved, options);
+
+  const response = await openai.chat.completions.create(request);
   return response.choices[0]?.message?.content || '';
 }
 
@@ -49,13 +87,22 @@ export async function* streamText(
   messages: LlmMessage[],
   options: LlmOptions = {},
 ): AsyncGenerator<string> {
-  const { provider, model } = resolveProviderModel(options.provider, options.model);
+  const resolved = resolveModelGenerationParams(options.provider, options.model);
 
-  if (provider === 'google') {
+  if (resolved.provider === 'google') {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) throw new Error('GOOGLE_API_KEY is not configured');
     const genAI = new GoogleGenerativeAI(apiKey);
-    const gModel = genAI.getGenerativeModel({ model });
+    const generationConfig: Record<string, number> = {};
+    const temperature = options.temperature ?? resolved.temperature;
+    if (temperature !== undefined) generationConfig.temperature = temperature;
+    if (resolved.top_p !== undefined) generationConfig.top_p = resolved.top_p;
+    if (resolved.top_k !== undefined) generationConfig.top_k = resolved.top_k;
+
+    const gModel = genAI.getGenerativeModel({
+      model: resolved.model,
+      generationConfig,
+    });
     const prompt = messages.map((m) => `${m.role}: ${m.content}`).join('\n\n');
     const result = await gModel.generateContentStream(prompt);
     for await (const chunk of result.stream) {
@@ -65,15 +112,34 @@ export async function* streamText(
     return;
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error('OPENAI_API_KEY is not configured');
-  const openai = new OpenAI({ apiKey });
-  const stream = await openai.chat.completions.create({
-    model: provider === 'openai' ? model : 'gpt-4o-mini',
-    messages,
-    temperature: options.temperature ?? 0.5,
-    stream: true,
+  const apiKey =
+    resolved.provider === 'openrouter'
+      ? process.env.OPENROUTER_API_KEY
+      : process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      resolved.provider === 'openrouter'
+        ? 'OPENROUTER_API_KEY is not configured'
+        : 'OPENAI_API_KEY is not configured',
+    );
+  }
+
+  const openai = new OpenAI({
+    apiKey,
+    baseURL:
+      resolved.provider === 'openrouter'
+        ? process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1'
+        : process.env.OPENAI_BASE_URL,
   });
+
+  const request: OpenAI.Chat.Completions.ChatCompletionCreateParamsStreaming = {
+    model: resolved.model,
+    messages,
+    stream: true,
+  };
+  applyGenerationParams(request, resolved, options);
+
+  const stream = await openai.chat.completions.create(request);
 
   for await (const chunk of stream) {
     const text = chunk.choices[0]?.delta?.content;
