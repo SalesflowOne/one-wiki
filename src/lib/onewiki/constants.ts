@@ -18,8 +18,10 @@ export function getOneWikiPublicUrl(): string {
 
 export function owebLoginUrl(options?: { launch?: boolean; redirect?: string }): string {
   const url = new URL('/login', getOwebAppUrl());
+  const redirect = options?.redirect ?? (options?.launch ? `${getOneWikiPublicUrl()}/sso` : undefined);
+
   if (options?.launch) url.searchParams.set('launch', ONEWIKI_APP_ID);
-  if (options?.redirect) url.searchParams.set('redirect', options.redirect);
+  if (redirect) url.searchParams.set('redirect', redirect);
   return url.toString();
 }
 

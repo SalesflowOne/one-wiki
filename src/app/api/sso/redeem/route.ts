@@ -35,6 +35,11 @@ export async function POST(request: Request) {
       refreshToken: result.refreshToken,
       orgId: result.orgId,
       userId: result.userId,
+      user: {
+        id: userData.user.id,
+        email: userData.user.email,
+        user_metadata: userData.user.user_metadata,
+      },
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'sso_redeem_failed';
