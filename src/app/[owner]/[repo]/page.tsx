@@ -6,6 +6,7 @@ import CodeViewer, { CodeTarget } from '@/components/CodeViewer';
 import Markdown from '@/components/Markdown';
 import ModelSelectionModal from '@/components/ModelSelectionModal';
 import ThemeToggle from '@/components/theme-toggle';
+import AuthNav from '@/components/AuthNav';
 import WikiTreeView from '@/components/WikiTreeView';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { RepoInfo } from '@/types/repoinfo';
@@ -256,8 +257,7 @@ export default function RepoWikiPage() {
         setAuthRequired(data.auth_required);
       } catch (err) {
         console.error("Failed to fetch auth status:", err);
-        // Assuming auth is required if fetch fails to avoid blocking UI for safety
-        setAuthRequired(true);
+        setAuthRequired(false);
       } finally {
         setIsAuthLoading(false);
       }
@@ -862,6 +862,7 @@ export default function RepoWikiPage() {
               <FaHome /> {messages.repoPage?.home || 'Home'}
             </Link>
           </div>
+          <AuthNav />
         </div>
       </header>
 

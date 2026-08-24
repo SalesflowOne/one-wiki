@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaWikipediaW, FaGithub, FaCoffee, FaTwitter } from 'react-icons/fa';
+import AuthNav from '@/components/AuthNav';
 import ThemeToggle from '@/components/theme-toggle';
 import Mermaid from '../components/Mermaid';
 import ConfigurationModal from '@/components/ConfigurationModal';
@@ -162,8 +163,8 @@ export default function Home() {
         setAuthRequired(data.auth_required);
       } catch (err) {
         console.error("Failed to fetch auth status:", err);
-        // Assuming auth is required if fetch fails to avoid blocking UI for safety
-        setAuthRequired(true);
+        // Do not block wiki generation when auth status cannot be fetched.
+        setAuthRequired(false);
       } finally {
         setIsAuthLoading(false);
       }
@@ -280,7 +281,7 @@ export default function Home() {
           return false;
         }
         const data = await response.json();
-        return data.success || false;
+        return data.success === true || data.valid === true;
       }
     } catch {
       return false;
@@ -394,25 +395,31 @@ export default function Home() {
       <header className="max-w-6xl mx-auto mb-6 h-fit w-full">
         <div
           className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-[var(--card-bg)] rounded-lg shadow-custom border border-[var(--border-color)] p-4">
-          <div className="flex items-center">
-            <div className="bg-[var(--accent-primary)] p-2 rounded-lg mr-3">
-              <FaWikipediaW className="text-2xl text-white" />
-            </div>
-            <div className="mr-6">
-              <h1 className="text-xl md:text-2xl font-bold text-[var(--accent-primary)]">{t('common.appName')}</h1>
-              <div className="flex flex-wrap items-baseline gap-x-2 md:gap-x-3 mt-0.5">
-                <p className="text-xs text-[var(--muted)] whitespace-nowrap">{t('common.tagline')}</p>
-                <div className="hidden md:inline-block">
-                  <Link href="/wiki/projects"
-                    className="text-xs font-medium text-[var(--accent-primary)] hover:text-[var(--highlight)] hover:underline whitespace-nowrap">
-                    {t('nav.wikiProjects')}
-                  </Link>
+          <div className="flex items-center justify-between gap-4 w-full md:w-auto">
+            <div className="flex items-center">
+              <div className="bg-[var(--accent-primary)] p-2 rounded-lg mr-3">
+                <FaWikipediaW className="text-2xl text-white" />
+              </div>
+              <div className="mr-6">
+                <h1 className="text-xl md:text-2xl font-bold text-[var(--accent-primary)]">{t('common.appName')}</h1>
+                <div className="flex flex-wrap items-baseline gap-x-2 md:gap-x-3 mt-0.5">
+                  <p className="text-xs text-[var(--muted)] whitespace-nowrap">{t('common.tagline')}</p>
+                  <div className="hidden md:inline-block">
+                    <Link href="/wiki/projects"
+                      className="text-xs font-medium text-[var(--accent-primary)] hover:text-[var(--highlight)] hover:underline whitespace-nowrap">
+                      {t('nav.wikiProjects')}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <AuthNav />
+              <ThemeToggle />
+            </div>
           </div>
 
-          <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 w-full max-w-3xl">
+          <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 w-full max-w-3xl md:flex-1">
             {/* Repository URL input and submit button */}
             <div className="flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1">
