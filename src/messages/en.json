@@ -125,7 +125,8 @@
     "askAboutRepo": "Ask questions about this repository"
   },
   "nav": {
-    "wikiProjects": "Wiki Projects"
+    "wikiProjects": "Wiki Projects",
+    "signIn": "Sign in"
   },
   "projects": {
     "title": "Processed Wiki Projects",

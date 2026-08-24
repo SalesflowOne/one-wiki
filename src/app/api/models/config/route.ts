@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { generatorConfig } from '@/lib/lore/config';
+import { buildModelConfigResponse } from '@/lib/lore/model-config';
 
 export async function GET() {
-  return NextResponse.json(generatorConfig);
+  return NextResponse.json(buildModelConfigResponse());
 }

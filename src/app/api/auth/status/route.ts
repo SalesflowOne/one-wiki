@@ -6,5 +6,5 @@ export async function GET() {
     process.env.ONEWIKI_REQUIRE_AUTH ||
     process.env.LORE_AUTH_MODE;
   const enabled = flag === 'true' || flag === '1';
-  return NextResponse.json({ auth_mode: enabled });
+  return NextResponse.json({ auth_required: enabled, auth_mode: enabled });
 }
