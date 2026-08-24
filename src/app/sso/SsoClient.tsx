@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { getBrowserSupabase } from '@/lib/onewiki/supabase-browser';
-import { WORKSPACE_STORAGE_KEY } from '@/lib/onewiki/constants';
+import { applySsoSession } from '@/lib/onewiki/auth-client';
 
 const ERROR_MESSAGES: Record<string, string> = {
   missing_launch_token: 'Missing launch token. Open One Wiki from the OWeb App Store.',
@@ -12,11 +11,28 @@ const ERROR_MESSAGES: Record<string, string> = {
   launch_token_consumed: 'This sign-in link was already used.',
   launch_token_expired: 'This sign-in link has expired.',
   launch_token_wrong_app: 'This sign-in link is for a different app.',
+  supabase_not_configured: 'One Wiki sign-in is not configured on this deployment.',
+  invalid_session: 'Could not establish a session from OWeb.',
+  sso_redeem_failed: 'Could not complete sign-in from OWeb.',
+  sso_failed: 'Could not complete sign-in from OWeb.',
 };
+
+function storeSsoError(code: string) {
+  if (typeof window !== 'undefined') {
+    window.sessionStorage.setItem('onewiki-sso-error', code);
+  }
+}
 
 export default function SsoPage() {
   const searchParams = useSearchParams();
-  const launchToken = searchParams.get('launch_token') || '';
+  const launchToken = useMemo(
+    () =>
+      searchParams.get('launch_token') ||
+      searchParams.get('launchToken') ||
+      searchParams.get('token') ||
+      '',
+    [searchParams],
+  );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,6 +56,11 @@ export default function SsoPage() {
           accessToken?: string;
           refreshToken?: string | null;
           orgId?: string;
+          user?: {
+            id: string;
+            email?: string | null;
+            user_metadata?: Record<string, unknown>;
+          };
         };
 
         if (!response.ok) {
@@ -48,22 +69,27 @@ export default function SsoPage() {
 
         if (cancelled) return;
 
-        const supabase = getBrowserSupabase();
-        const { error: sessionError } = await supabase.auth.setSession({
-          access_token: payload.accessToken!,
-          refresh_token: payload.refreshToken ?? '',
+        await applySsoSession({
+          accessToken: payload.accessToken!,
+          refreshToken: payload.refreshToken,
+          orgId: payload.orgId,
+          user: payload.user
+            ? {
+                id: payload.user.id,
+                email: payload.user.email ?? undefined,
+                user_metadata: payload.user.user_metadata ?? {},
+                app_metadata: {},
+                aud: 'authenticated',
+                created_at: new Date().toISOString(),
+              }
+            : null,
         });
-
-        if (sessionError) throw sessionError;
-
-        if (payload.orgId && typeof window !== 'undefined') {
-          window.localStorage.setItem(WORKSPACE_STORAGE_KEY, payload.orgId);
-        }
 
         window.location.assign('/');
       } catch (err) {
         if (cancelled) return;
         const code = err instanceof Error ? err.message : 'sso_failed';
+        storeSsoError(code);
         setError(ERROR_MESSAGES[code] || 'Could not complete sign-in from OWeb.');
       }
     })();

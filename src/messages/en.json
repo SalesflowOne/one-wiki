@@ -126,7 +126,9 @@
   },
   "nav": {
     "wikiProjects": "Wiki Projects",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "workspace": "Workspace"
   },
   "projects": {
     "title": "Processed Wiki Projects",

@@ -14,7 +14,9 @@
 ## Flows
 
 ### A) Product login (`/login`)
-Primary CTA: **Continue with OWeb** → `oweb.one/login?launch=onewiki`
+Primary CTA: **Continue with OWeb** → `oweb.one/login?launch=onewiki&redirect=https://<onewiki-host>/sso`
+
+OWeb must mint a launch token and redirect the browser to `<onewiki-host>/sso?launch_token=...`. One Wiki cannot read OWeb's session directly when hosted on a different domain (for example `*.vercel.app`).
 
 ### B) App Store SSO (`/sso?launch_token=...`)
 1. OWeb mints token in `ao_ecosystem_launch_tokens`
@@ -44,3 +46,12 @@ PR: https://github.com/SalesflowOne/OWeb/pull/858 — registers `onewiki` in `ec
 ## Database
 
 Migration applied on One OS (`ebjzdcnphkfpxfldnatm`): `onewiki_profiles` table with RLS.
+
+## Troubleshooting sign-in
+
+| Symptom | Likely cause |
+|---|---|
+| Header always shows **Sign in** | Missing `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` on the One Wiki deployment |
+| OWeb opens but you never return to One Wiki | OWeb launch handoff not completed — `onewiki` must be registered in OWeb `mintEcosystemLaunch`, and `NEXT_PUBLIC_ONEWIKI_PUBLIC_URL` must match this deployment |
+| `/sso` shows invalid/expired token | Token already consumed, expired, or server missing `SUPABASE_SERVICE_ROLE_KEY` |
+| Signed in but no workspace shown | SSO redeem succeeded without `orgId`; check OWeb launch token payload |
