@@ -16,12 +16,15 @@ export function getOneWikiPublicUrl(): string {
   return (process.env.NEXT_PUBLIC_ONEWIKI_PUBLIC_URL || ONEWIKI_DEFAULT_PUBLIC_URL).replace(/\/$/, '');
 }
 
-export function owebLoginUrl(options?: { launch?: boolean; redirect?: string }): string {
+export function owebLoginUrl(options?: { launch?: boolean }): string {
   const url = new URL('/login', getOwebAppUrl());
-  const redirect = options?.redirect ?? (options?.launch ? `${getOneWikiPublicUrl()}/sso` : undefined);
-
   if (options?.launch) url.searchParams.set('launch', ONEWIKI_APP_ID);
-  if (redirect) url.searchParams.set('redirect', redirect);
+  return url.toString();
+}
+
+export function owebOnboardingUrl(): string {
+  const url = new URL('/onboarding', getOwebAppUrl());
+  url.searchParams.set('launch', ONEWIKI_APP_ID);
   return url.toString();
 }
 
